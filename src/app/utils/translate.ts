@@ -10,7 +10,7 @@ export async function translateText(prompt:String) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer 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",
+        Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
       },
       body: JSON.stringify({
         model: "llama-3.3-70b-versatile",
