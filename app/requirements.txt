@@ -1,8 +1,0 @@
-fastapi
-uvicorn
-openai
-ollama
-python-dotenv
-requests
-sqlite3
-google-generativeai
