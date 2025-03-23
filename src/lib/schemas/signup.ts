@@ -1,3 +1,4 @@
+import { isMobilePhone } from "validator";
 import { z } from "zod";
 
 export default z
@@ -5,10 +6,12 @@ export default z
     email: z
       .string()
       .email({
-        message: "Invalid Email",
+        message: "Invalid email",
       })
-      .toLowerCase(),
-    name: z.string().min(4, "Name must be at least 8 character").max(64, "Name cannot be more than 64 characters"),
+      .toLowerCase()
+      .trim(),
+    name: z.string().min(4, "Name must be at least 8 character").max(64, "Name cannot be more than 64 characters").trim(),
+    contactNumber: z.string().refine(isMobilePhone, "Invalid number"),
     password: z
       .string()
       .min(8, "Password must be at least 8 character")

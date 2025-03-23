@@ -22,6 +22,7 @@ export default function RegisterForm({ className, ...props }: ComponentPropsWith
     defaultValues: {
       name: "",
       email: "",
+      contactNumber: "",
       password: "",
       confirmPassword: "",
     },
@@ -76,6 +77,20 @@ export default function RegisterForm({ className, ...props }: ComponentPropsWith
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="contactNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Contact Number</FormLabel>
+                    <FormControl>
+                      <Input type="tel" placeholder="+91999999XXXX" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="password"

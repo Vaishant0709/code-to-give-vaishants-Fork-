@@ -4,8 +4,9 @@ export default z.object({
   email: z
     .string()
     .email({
-      message: "Invalid Email",
+      message: "Invalid email",
     })
-    .toLowerCase(),
+    .toLowerCase()
+    .trim(),
   password: z.string().min(1, "Password is required"),
 });

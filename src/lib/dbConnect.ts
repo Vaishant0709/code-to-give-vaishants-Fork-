@@ -39,6 +39,4 @@ async function dbConnect() {
   return cached.conn;
 }
 
-export const client = (await dbConnect()).connection.getClient();
-
 export default dbConnect;
