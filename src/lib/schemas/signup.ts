@@ -2,9 +2,13 @@ import { z } from "zod";
 
 export default z
   .object({
-    email: z.string().email({
-      message: "Invalid Email",
-    }),
+    email: z
+      .string()
+      .email({
+        message: "Invalid Email",
+      })
+      .toLowerCase(),
+    name: z.string().min(4, "Name must be at least 8 character").max(64, "Name cannot be more than 64 characters"),
     password: z
       .string()
       .min(8, "Password must be at least 8 character")

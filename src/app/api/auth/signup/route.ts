@@ -7,11 +7,10 @@ import { MongooseError } from "mongoose";
 export async function POST(req: Request) {
   try {
     await dbConnect();
-    const data = await req.json();
-    formSchema.parse(data);
-    const { email, password } = data;
+    const data = formSchema.parse(await req.json());
+    const { password } = data;
     const user = await User.create({
-      email: email,
+      ...data,
       password: await hash(password, parseInt(process.env.SALT_ROUNDS || "10")),
     });
     return Response.json({ success: true, data: user });

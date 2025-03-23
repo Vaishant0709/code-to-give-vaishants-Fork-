@@ -2,19 +2,35 @@ import mongoose from "mongoose";
 
 export interface Users extends mongoose.Document {
   email: string;
+  name: string;
+  contactNum?: string;
   password: string;
+  role: "student" | "teacher" | "admin";
 }
 
 const UserSchema = new mongoose.Schema<Users>({
   email: {
     type: String,
-    unique: [true, "email already in use"],
+    unique: [true, "Email already in use"],
     index: true,
-    required: [true, "email missing"],
+    required: [true, "Email missing"],
+  },
+  contactNum: {
+    type: String,
+  },
+  name: {
+    type: String,
+    required: [true, "Name missing"],
   },
   password: {
     type: String,
-    required: [true, "password missing"],
+    required: [true, "Password missing"],
+  },
+  role: {
+    type: String,
+    enum: ["student", "teacher", "admin"],
+    default: "student",
+    required: true,
   },
 });
 
