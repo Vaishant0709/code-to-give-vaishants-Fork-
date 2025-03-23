@@ -30,6 +30,7 @@ async function dbConnect() {
   }
   try {
     cached.conn = await cached.promise;
+    await cached.conn.syncIndexes();
   } catch (e) {
     cached.promise = null;
     throw e;

@@ -2,11 +2,12 @@ import dbConnect from "@/lib/dbConnect";
 import User from "@/models/User";
 import { hash } from "bcrypt";
 import formSchema from "@/lib/schemas/signup";
+import { MongooseError } from "mongoose";
 
 export async function POST(req: Request) {
-  await dbConnect();
-  const data = await req.json();
   try {
+    await dbConnect();
+    const data = await req.json();
     formSchema.parse(data);
     const { email, password } = data;
     const user = await User.create({
@@ -14,8 +15,14 @@ export async function POST(req: Request) {
       password: await hash(password, parseInt(process.env.SALT_ROUNDS || "10")),
     });
     return Response.json({ success: true, data: user });
-  } catch (error) {
-    console.log(error);
-    return Response.json({ success: false, error: error });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    let errorMsg = "Could not create account";
+    if (error["name"] === "ZodError") {
+      errorMsg = error["issues"][0]["message"];
+    } else if (error instanceof MongooseError) {
+      errorMsg = error.message;
+    }
+    return Response.json({ success: false, error: errorMsg });
   }
 }
