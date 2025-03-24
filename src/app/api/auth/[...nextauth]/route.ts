@@ -20,7 +20,6 @@ export const authOptions: NextAuthOptions = {
           const user = await User.findOne({ email }).lean();
           if (user && password) {
             if (await compare(password, user.password)) {
-              console.log({ ...user, id: user._id.toString() });
               return { ...user, id: user._id.toString() };
             }
           }
@@ -38,13 +37,12 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.id = user.id;
-      console.log("TOKEN:", token);
+      if (user) token.user = user;
       return token;
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async session({ session, token }: any) {
-      session.user.id = token.id;
+      session.user = token.user;
       return session;
     },
   },
