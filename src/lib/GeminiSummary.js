@@ -3,7 +3,7 @@ import mime from "mime-types";
 import { GoogleAIFileManager, FileState } from "@google/generative-ai/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const API_KEY = 'AIzaSyDiFVsdGRW9zM6eX--gtwFSr-2EEJlyhxU';
+const API_KEY = process.env.API_KEY;
 const fileManager = new GoogleAIFileManager(API_KEY);
 
 /**
