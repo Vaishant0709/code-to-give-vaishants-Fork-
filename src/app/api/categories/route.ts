@@ -5,13 +5,11 @@ import dbConnect from "@/lib/dbConnect";
 import Category from "@/models/Category";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { getToken } from "next-auth/jwt";
 
-
+//AUTH IS NOT WORKING REST OF THE API IS WORKING
 export async function POST(request: NextRequest) {
   try {
-
-    //AUTH IS NOT WORKING REST OF THE API IS WORKING
-
 
     // const session=await getServerSession(authOptions)
     // console.log("session :- ",session);
@@ -72,6 +70,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
+//AUTH IS NOT WORKING REST OF THE API IS WORKING
 export async function GET(request : NextRequest){
   try {
     // const session = await getServerSession(authOptions);

@@ -4,7 +4,7 @@ import dbConnect from "@/lib/dbConnect";
 import Category from "@/models/Category";
 import Submission from "@/models/Submission";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { authOptions } from "../../../auth/[...nextauth]/route";
 
 
 //NO LONGER REQUIRED AS WE ARE NOT USING TEACHER EDIT OPTION
@@ -84,16 +84,7 @@ export async function DELETE(request : NextRequest,{params} : {params : {categor
     //     {status : 401}
     //   );
     // }
-    const {categoryId}=await params;
-    await dbConnect();
 
-    const category = await Category.findById(categoryId);
-    if(!category){
-      return NextResponse.json(
-        {error : 'Category not found'},
-        {status : 404}
-      );
-    }
 
     // if(session.user.role ==='student'){
     //   return NextResponse.json(
@@ -108,6 +99,20 @@ export async function DELETE(request : NextRequest,{params} : {params : {categor
     //     {status:403}
     //   );
     // }
+
+    
+    const {categoryId}=await params;
+    await dbConnect();
+
+    const category = await Category.findById(categoryId);
+    if(!category){
+      return NextResponse.json(
+        {error : 'Category not found'},
+        {status : 404}
+      );
+    }
+
+    
 
     const deletedCategory=await Category.findByIdAndDelete(categoryId);
     if(!deletedCategory){
