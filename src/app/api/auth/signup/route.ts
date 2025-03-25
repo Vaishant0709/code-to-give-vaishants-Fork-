@@ -16,6 +16,7 @@ export async function POST(req: Request) {
     return Response.json({ success: true, data: user });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
+    console.log(`ERROR :: ACCOUNT CREATION :: ${error}`);
     let errorMsg = "Could not create account";
     if (error["name"] === "ZodError") {
       errorMsg = error["issues"][0]["message"];

@@ -7,7 +7,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
 
-
+//NO LONGER REQUIRED AS WE ARE NOT USING TEACHER EDIT OPTION
 export async function PUT(request : NextRequest,{params} : {params : {categoryId : string}}){
   try {
     const session = await getServerSession(authOptions)
@@ -77,17 +77,17 @@ export async function PUT(request : NextRequest,{params} : {params : {categoryId
 
 export async function DELETE(request : NextRequest,{params} : {params : {categoryId : string}}){
   try {
-    const session = await getServerSession(authOptions)
-    if(!session?.user){
-      return NextResponse.json(
-        {error : 'Unauthorized'},
-        {status : 401}
-      );
-    }
-
+    // const session = await getServerSession(authOptions)
+    // if(!session?.user){
+    //   return NextResponse.json(
+    //     {error : 'Unauthorized'},
+    //     {status : 401}
+    //   );
+    // }
+    const {categoryId}=await params;
     await dbConnect();
 
-    const category = await Category.findById(params.categoryId);
+    const category = await Category.findById(categoryId);
     if(!category){
       return NextResponse.json(
         {error : 'Category not found'},
@@ -95,21 +95,21 @@ export async function DELETE(request : NextRequest,{params} : {params : {categor
       );
     }
 
-    if(session.user.role ==='student'){
-      return NextResponse.json(
-        {error:'Forbidden . Only teachers and admins can perform this action.'},
-        {status:403}
-      );
-    }
+    // if(session.user.role ==='student'){
+    //   return NextResponse.json(
+    //     {error:'Forbidden . Only teachers and admins can perform this action.'},
+    //     {status:403}
+    //   );
+    // }
 
-    if(session.user.role==='teacher' && category.teacher.toString()!==session.user.id){
-      return NextResponse.json(
-        {error : 'Forbidden . Teachers can only delete their own categories.'},
-        {status:403}
-      );
-    }
+    // if(session.user.role==='teacher' && category.teacher.toString()!==session.user.id){
+    //   return NextResponse.json(
+    //     {error : 'Forbidden . Teachers can only delete their own categories.'},
+    //     {status:403}
+    //   );
+    // }
 
-    const deletedCategory=await Category.findByIdAndDelete(params.categoryId);
+    const deletedCategory=await Category.findByIdAndDelete(categoryId);
     if(!deletedCategory){
       return NextResponse.json(
         {error : 'Category not found'},
@@ -117,7 +117,7 @@ export async function DELETE(request : NextRequest,{params} : {params : {categor
       );
     }
 
-    await Submission.deleteMany({category: params.categoryId});
+    await Submission.deleteMany({category: categoryId});
 
     return NextResponse.json(
       {message: 'Category deleted'},

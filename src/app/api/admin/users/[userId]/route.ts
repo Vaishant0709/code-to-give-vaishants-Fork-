@@ -9,17 +9,18 @@ import Submission from "@/models/Submission";
 
 export async function DELETE( request : NextRequest , {params}:{params :{userId : string}}){
   try {
-    const session=await getServerSession(authOptions);
-    if(!session?.user || session.user.role !=='admin'){
-      return NextResponse.json(
-        {error:"Unauthorized"},
-        {status : 401}
-      );
-    }
+    
+    // const session=await getServerSession(authOptions);
+    // if(!session?.user || session.user.role !=='admin'){
+    //   return NextResponse.json(
+    //     {error:"Unauthorized"},
+    //     {status : 401}
+    //   );
+    // }
 
     await dbConnect();
-
-    const user=await User.findByIdAndDelete(params.userId);
+    const {userId}= await params;
+    const user=await User.findByIdAndDelete(userId);
     if(!user){
       return NextResponse.json(
         {error : "User not found"},
